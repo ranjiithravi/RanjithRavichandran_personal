@@ -54,9 +54,9 @@ def chit_amount_prediction(paid_amounts, chit_full_duration):
     return fit(total_months)
 
 
-def direct_interestCalc(net_amount, draw_month, chit_full_duration, rate):
+def direct_interestCalc(net_amount, drawn_month, chit_full_duration, rate):
     """Calculate direct interest"""
-    rem_months = chit_full_duration - draw_month
+    rem_months = chit_full_duration - drawn_month
     interest = net_amount*rate/12*rem_months
 
     return interest
@@ -80,7 +80,7 @@ def cumulative_interestCalc_fullCapital(capital, monthly_chit, draw_month, chit_
     interest_cum = 0
     for i in np.arange(rem_months):
         interest = capital*rate/12
-        # print(f'month {draw_month+i}: capital {capital}, interest {interest}')
+        print(f'month {draw_month+i}: capital {capital}, interest {interest}')
         capital = capital - monthly_chit
 
         interest_cum += interest
@@ -122,7 +122,7 @@ print('========= calculate profit related numbers =========')
 print('====================================================')
 print()
 
-draw_month = 20
+draw_month = 6
 print(f'chit amount paid for {draw_month}th month ({chit_months[draw_month-1]}): {chit_amounts_fullDuration[draw_month-1]}')
 accrued_capital = sum(chit_amounts_fullDuration[0:draw_month])
 print(f'accrued capital at {draw_month}th month: {accrued_capital}')
@@ -159,13 +159,14 @@ print(f'net profit: {net_profit}')
 if plot_fig:
     plt.figure(figsize=(12, 8))
     # plt.scatter(chit_months[0:len(chit_amounts_soFar)], chit_amounts_soFar, color='k',
-    plt.scatter(chit_months, chit_amounts, color='k',
-                label='actual amount paid so far')
-    plt.plot(chit_months, chit_amounts_fullDuration, color='red', label='full duration extrapolated')
-    plt.axvline(x=current_month, color='k', linestyle='--', label='current month')
+    plt.scatter(chit_months, chit_amounts, color='red',
+                label='actual amount paid every month')
+    plt.plot(chit_months, chit_amounts_fullDuration, label='full duration extrapolated')
+    plt.axvline(x=current_month, color='grey', linestyle='--', label='current month')
     plt.legend()
     plt.title("Chit payment history")
-    plt.xlabel("Months")
+    plt.xlabel("Timeline")
     plt.ylabel("Amount in INR")
-    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.grid(True, linestyle=':', color='lightgrey')
     plt.show()

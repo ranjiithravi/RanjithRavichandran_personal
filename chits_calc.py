@@ -158,15 +158,14 @@ print(f'net profit: {net_profit}')
 # plot for comparison
 if plot_fig:
     plt.figure(figsize=(12, 8))
-    # plt.scatter(chit_months[0:len(chit_amounts_soFar)], chit_amounts_soFar, color='k',
-    plt.scatter(chit_months, chit_amounts, color='red',
-                label='actual amount paid every month')
-    plt.plot(chit_months, chit_amounts_fullDuration, label='full duration extrapolated')
-    plt.axvline(x=current_month, color='grey', linestyle='--', label='current month')
+    plt.scatter(chit_months, chit_amounts, color='red', label='actual amount paid every month')
+    plt.plot(chit_months, chit_amounts_fullDuration, label='full duration interpolated')
+    plt.axvline(x=current_month, color='grey', linestyle='--', linewidth=1, label='current month')
     plt.legend()
     plt.title("Chit payment history")
     plt.xlabel("Timeline")
     plt.ylabel("Amount in INR")
     plt.xticks(rotation=45)
-    plt.grid(True, linestyle=':', color='lightgrey')
+    plt.grid(True, linestyle=':', linewidth=0.5, color='lightgrey')
+    plt.savefig('chit_payment_history.pdf', format='pdf', bbox_inches='tight')
     plt.show()
